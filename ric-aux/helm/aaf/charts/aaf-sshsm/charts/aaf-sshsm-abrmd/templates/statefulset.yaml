@@ -33,7 +33,6 @@ spec:
     matchLabels:
       app: {{ include "common.name" . }}
       release: {{ .Release.Name }}
-  serviceName:
   template:
     metadata:
       labels:
