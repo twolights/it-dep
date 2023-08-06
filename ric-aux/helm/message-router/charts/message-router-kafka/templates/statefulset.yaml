@@ -27,7 +27,7 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
-  serviceName: {{ .Values.service.name }}
+  serviceName: {{ include "common.name" . }}
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
@@ -40,7 +40,8 @@ spec:
         app:  {{ include "common.name" . }}
         release: {{ .Release.Name }}
     spec:
-      podAntiAffinity:
+      affinity:
+        podAntiAffinity:
          {{if eq .Values.podAntiAffinityType "hard" -}}
          requiredDuringSchedulingIgnoredDuringExecution:
          {{- else -}}

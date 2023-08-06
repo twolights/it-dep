@@ -27,7 +27,7 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
-  serviceName: {{ .Values.service.name }}
+  serviceName: {{ include "common.name" . }}
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
@@ -35,8 +35,8 @@ spec:
       release: {{ .Release.Name }}
   updateStrategy:
     type: RollingUpdate
-    rollingUpdate:
-      maxUnavailable: {{ .Values.rollingUpdate.maxUnavailable }}
+#    rollingUpdate:
+#      maxUnavailable: {{ .Values.rollingUpdate.maxUnavailable }}
   podManagementPolicy: Parallel
   template:
     metadata:
@@ -44,17 +44,18 @@ spec:
         app: {{ include "common.name" . }}
         release: {{ .Release.Name }}
     spec:
-      podAntiAffinity:
-         preferredDuringSchedulingIgnoredDuringExecution:
-         - weight: 1
-           podAffinityTerm:
-             labelSelector:
-                matchExpressions:
-                  - key: "app"
-                    operator: In
-                    values:
-                    - {{ include "common.name" . }}
-             topologyKey: "kubernetes.io/hostname"
+      affinity:
+        podAntiAffinity:
+           preferredDuringSchedulingIgnoredDuringExecution:
+           - weight: 1
+             podAffinityTerm:
+               labelSelector:
+                  matchExpressions:
+                    - key: "app"
+                      operator: In
+                      values:
+                      - {{ include "common.name" . }}
+               topologyKey: "kubernetes.io/hostname"
       {{- if .Values.nodeAffinity }}
       nodeAffinity:
         {{ toYaml .Values.nodeAffinity | indent 10 }}

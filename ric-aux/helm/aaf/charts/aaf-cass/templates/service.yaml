@@ -30,19 +30,15 @@ spec:
     - name: storage
       protocol: TCP
       port: {{.Values.global.aaf.cass.storage_port}}
-      containerPort: {{.Values.global.aaf.cass.storage_port}}
     - name: ssl-storage
       protocol: TCP
       port: {{.Values.global.aaf.cass.ssl_storage_port}}
-      containerPort: {{.Values.global.aaf.cass.ssl_storage_port}}
     - name: native-trans
       protocol: TCP
       port: {{.Values.global.aaf.cass.native_trans_port}}
-      containerPort: {{.Values.global.aaf.cass.native_trans_port}}
     - name: rpc
       protocol: TCP
       port: {{.Values.global.aaf.cass.rpc_port}}
-      containerPort: {{.Values.global.aaf.cass.rpc_port}}
   selector:
     app: {{ include "common.name" . }}
     release: {{ .Release.Name }}

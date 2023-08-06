@@ -27,6 +27,7 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
+  serviceName: {{ include "common.name" . }}
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
