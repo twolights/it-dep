@@ -98,7 +98,7 @@ spec:
           mountPath: /testca/secrets
           readOnly: true
         resources:
-{{ toYaml .Values.resources | indent 10 }}
+{{ include "common.resources" . | indent 10 }}
       nodeSelector:
         {{- if .Values.nodeSelector }}
 {{ toYaml .Values.nodeSelector | indent 8 }}
